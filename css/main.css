@@ -1,0 +1,12 @@
+#left-sidebar {
+	width: 30%;
+	float: left;
+}
+#cat-names ul {
+	cursor: pointer;
+	cursor: hand;
+}
+#cat-showcase {
+	width: 70%;
+	float: right;
+}
