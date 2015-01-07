@@ -2,11 +2,26 @@
 	width: 30%;
 	float: left;
 }
+
 #cat-names ul {
 	cursor: pointer;
 	cursor: hand;
+	text-decoration: underline;
+	color: blue;
+	font-weight: bold;
+	margin-top: 5px;
 }
+
 #cat-showcase {
 	width: 70%;
 	float: right;
+}
+
+#admin-interface {
+	margin: 10px;
+	display: none;
+}
+
+#admin-interface input{
+	margin: 5px 0;
 }
