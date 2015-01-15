@@ -1,4 +1,11 @@
 $(function(){
+	var viewModel = function() {
+		this.clickCount = ko.observable(0);
+		this.name = ko.observable("Toby");
+		this.imgSrc = ko.observable("https://placekitten.com/g/200/300");
+		this.imgAttribution = ko.observable('https://placekitten.com');
+	}
+	ko.applyBinding(new ViewModel());
 	var model = {
 		catData:[
 			{

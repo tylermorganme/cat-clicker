@@ -1,5 +1,47 @@
 $(function(){
-	var controller = {
+	var ViewModel = function() {
+		var self = this;
+		self.clickCount = ko.observable(0);
+		self.firstName = ko.observable("Toby");
+		self.lastName = ko.observable("McWhiskerMittens");
+		self.imgSrc = ko.observable("https://placekitten.com/g/200/300");
+		self.imgAttribution = ko.observable('https://placekitten.com');
+
+		self.nicknames = ko.observableArray([
+			{nickname: "El Scratchito"},
+			{nickname: "The Shanghai Sprayer"},
+			{nickname: "Silent Death"},
+			{nickname: "Steve"}
+			]);
+
+		self.incrementCounter = function() {
+			self.clickCount(self.clickCount() + 1);
+		}
+
+		self.fullName = ko.computed(function() {
+	        return self.firstName() + " " + self.lastName();
+	    }, self);
+
+	    self.level = ko.computed(function(){
+	    	var result = 'Newborn'
+	    	if (self.clickCount() > 100) {
+	    		result = "Laser Catcher"
+	    	} else if (self.clickCount() >= 75) {
+	    		result = "Whiskered Warrior"
+	    	} else if (self.clickCount() >= 50) {
+	    		result = "Ferocious Feline"
+	    	} else if (self.clickCount() >= 25) {
+	    		result = "Kitty-cat"
+	    	} else if (self.clickCount() >= 10) {
+	    		result = "Infant"
+	    	} 
+	    	return result;
+	    }, self)
+	}
+
+	ko.applyBindings(new ViewModel());
+
+	/*var controller = {
 		init: function() {
 			model.setActiveCat(0);
 			viewCatList.displayAll(model.catData);
@@ -181,7 +223,7 @@ $(function(){
 		}
 	};
 
-	controller.init();	
+	controller.init();	*/
 });
 
 
