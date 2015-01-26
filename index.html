@@ -10,7 +10,7 @@
 	<div id="left-sidebar">
 		<h1>Cat Clicker</h1>
 		<p>See how many times you can click the cat!</p>
-		<p id="total-clicks">Total clicks: <span>0</span></p>
+		<p id="total-clicks">Total clicks: <span data-bind="text: totalClicks"></span></p>
 		<button id="btn-admin">Admin</button>
 		<form id="admin-interface" action="">
 			<label for="id">ID:</label>
@@ -32,24 +32,25 @@
 			<button id="btn-submit">Submit</button>
 		</form>
 		<div id="cat-names">
-			<ul></ul>
+			<ul data-bind="foreach: catList">
+				<li data-bind="text: fullName, click: $parent.setCurrentCat"></li>
+			</ul>
 		</div>
 	</div>
 
-	<div id="cat-showcase">
+	<div id="cat-showcase" data-bind="with: currentCat">
 			<h1 data-bind="text: fullName"></h1>
-
 			<h2 data-bind="text: level"></h2>
 			<p>has been clicked: <span data-bind="text: clickCount"></span> times!</p>
-			<img data-bind="click: incrementCounter, attr: {src: imgSrc}">
+			<img data-bind="click: $parent.incrementCounter, attr: {src: imgSrc}">
+			<h3>Nicknames:</h3>
 			<ul data-bind="foreach: nicknames">
-				<li data-bind="text: nickname"></li>
+				<li data-bind="text: $data"></li>
 				
 			</ul>
 	</div>
 
 	<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
-	<!--<script src="js/data.js"></script>-->
 	<script src="js/main.js"></script>
 </body>
 

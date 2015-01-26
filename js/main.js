@@ -1,42 +1,109 @@
 $(function(){
-	var ViewModel = function() {
-		var self = this;
-		self.clickCount = ko.observable(0);
-		self.firstName = ko.observable("Toby");
-		self.lastName = ko.observable("McWhiskerMittens");
-		self.imgSrc = ko.observable("https://placekitten.com/g/200/300");
-		self.imgAttribution = ko.observable('https://placekitten.com');
-
-		self.nicknames = ko.observableArray([
-			{nickname: "El Scratchito"},
-			{nickname: "The Shanghai Sprayer"},
-			{nickname: "Silent Death"},
-			{nickname: "Steve"}
-			]);
-
-		self.incrementCounter = function() {
-			self.clickCount(self.clickCount() + 1);
+	var initialCats = [
+		{
+			clickCount: 0,
+			firstName: "Toby",
+			lastName: "McWhiskerMittens",
+			imgSrc: "https://placekitten.com/g/200/300",
+			imgAttr: 'https://placekitten.com',
+			nicknames: [
+				"El Scratchito",
+				"The Shanghai Sprayer",
+				"Silent Death",
+				"Steve"
+				]
+		},
+		{
+			clickCount: 0,
+			firstName: "Gertrude",
+			lastName: "The Cat",
+			imgSrc: "https://placekitten.com/g/300/200",
+			imgAttr: 'https://placekitten.com',
+			nicknames: [
+				"Snuggles",
+				"Bread Eater"
+				]
+		},
+		{
+			clickCount: 0,
+			firstName: "Tabitha",
+			lastName: "Tabby",
+			imgSrc: "https://placekitten.com/g/400/200",
+			imgAttr: 'https://placekitten.com',
+			nicknames: [
+				"That One Cat",
+				"Tour de Tabby",
+				"Tabber-Blabber"
+				] 
+		},
+		{
+			clickCount: 0,
+			firstName: "Felicity",
+			lastName: "Feline",
+			imgSrc: "https://placekitten.com/g/200/400",
+			imgAttr: 'https://placekitten.com',
+			nicknames: [
+				"Fel Fel",
+				"Feline Fury",
+				"Five Star Felicity"
+				]
 		}
+	]
 
-		self.fullName = ko.computed(function() {
-	        return self.firstName() + " " + self.lastName();
-	    }, self);
+	var Cat = function(data) {
+		this.clickCount = ko.observable(data.clickCount);
+		this.firstName = ko.observable(data.firstName);
+		this.lastName = ko.observable(data.lastName);
+		this.imgSrc = ko.observable(data.imgSrc);
+		this.imgAttr= ko.observable(data.imgAttr);
+		this.nicknames = ko.observableArray(data.nicknames);
 
-	    self.level = ko.computed(function(){
+		this.fullName = ko.computed(function() {
+	        return this.firstName() + " " + this.lastName();
+	    }, this);
+
+	    this.level = ko.computed(function(){
 	    	var result = 'Newborn'
-	    	if (self.clickCount() > 100) {
+	    	if (this.clickCount() > 100) {
 	    		result = "Laser Catcher"
-	    	} else if (self.clickCount() >= 75) {
+	    	} else if (this.clickCount() >= 75) {
 	    		result = "Whiskered Warrior"
-	    	} else if (self.clickCount() >= 50) {
+	    	} else if (this.clickCount() >= 50) {
 	    		result = "Ferocious Feline"
-	    	} else if (self.clickCount() >= 25) {
+	    	} else if (this.clickCount() >= 25) {
 	    		result = "Kitty-cat"
-	    	} else if (self.clickCount() >= 10) {
+	    	} else if (this.clickCount() >= 10) {
 	    		result = "Infant"
 	    	} 
 	    	return result;
-	    }, self)
+	    }, this)
+	}
+
+	var ViewModel = function() {
+		var self = this;
+		this.catList = ko.observableArray([]);
+
+		initialCats.forEach(function(catItem) {
+			self.catList.push(new Cat(catItem))
+		});
+
+		this.currentCat = ko.observable(self.catList()[0]);
+
+		this.totalClicks = ko.computed(function(){
+			var result = 0;
+			for (var i = 0; i < self.catList().length; i++){
+				result += self.catList()[i].clickCount();
+			}
+			return result;
+		});
+
+		this.incrementCounter = function() {
+			self.currentCat().clickCount(self.currentCat().clickCount() + 1);
+		}
+
+		this.setCurrentCat = function(clickedCat) {
+			self.currentCat(clickedCat);
+		};
 	}
 
 	ko.applyBindings(new ViewModel());
